@@ -19,7 +19,7 @@ function initParticles() {
   for (let y = 0; y < canvas.height; y += 6) {
     for (let x = 0; x < canvas.width; x += 6) {
       const index = (y * canvas.width + x) * 4;
-      if (data[index + 3] > 128) { // if pixel not transparent
+      if (data[index + 3] > 128) { 
         particles.push({
           x: x,
           y: y,
@@ -35,7 +35,6 @@ function initParticles() {
   }
 }
 
-// Animate particles
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let p of particles) {
@@ -44,22 +43,19 @@ function animate() {
     ctx.fillStyle = p.color;
     ctx.fill();
 
-    // move
+    
     p.x += p.vx;
     p.y += p.vy;
 
-    // return slowly to base position
     p.vx += (p.baseX - p.x) * 0.01;
     p.vy += (p.baseY - p.y) * 0.01;
 
-    // friction
     p.vx *= 0.92;
     p.vy *= 0.92;
   }
   requestAnimationFrame(animate);
 }
 
-// Disperse on hover/touch
 canvas.addEventListener("mousemove", e => {
   const rect = canvas.getBoundingClientRect();
   const mx = e.clientX - rect.left;
@@ -79,7 +75,6 @@ canvas.addEventListener("mousemove", e => {
 });
 
 canvas.addEventListener("click", () => {
-  // scatter all
   for (let p of particles) {
     p.vx += (Math.random() - 0.5) * 20;
     p.vy += (Math.random() - 0.5) * 20;
@@ -88,4 +83,5 @@ canvas.addEventListener("click", () => {
 
 initParticles();
 animate();
+
 
