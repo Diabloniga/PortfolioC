@@ -1,11 +1,10 @@
-// Bubble Text Effect
 const canvas = document.getElementById("bubbleCanvas");
 const ctx = canvas.getContext("2d");
 const text = "ADITYA BISHT";
 
 let particles = [];
 
-// Draw text to hidden layer and sample pixels
+
 function initParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.font = "bold 80px Arial";
@@ -89,3 +88,4 @@ canvas.addEventListener("click", () => {
 
 initParticles();
 animate();
+
