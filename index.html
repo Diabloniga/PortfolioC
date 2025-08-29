@@ -378,18 +378,95 @@ footer {
 </div>
 
   </section>
+  <!-- Your Assignments Section Ends -->
+  </section>
+
+  <!-- 🔹 Add Video Section Here -->
+  <section id="video-section">
+    <h2>My Video Showcase</h2>
+
+    <!-- Video Preview Box -->
+    <div id="video-preview" 
+         style="width:100%; max-width:600px; height:340px; background:#e2e8f0; border:2px dashed #94a3b8; display:flex; align-items:center; justify-content:center; border-radius:10px; margin:auto; margin-bottom:10px; color:black;">
+      No video added
+    </div>
+
+    <!-- Video Caption -->
+    <p id="video-note" style="font-style:italic; color:#FFD700; text-align:center;">No caption</p>
+
+    <!-- Controls -->
+    <div style="margin-top:15px; text-align:center;">
+      <input type="text" id="yt-url" placeholder="Paste YouTube URL" style="padding:6px; width:250px;">
+      <button onclick="embedYoutube()">Embed YouTube</button>
+      
+      <br><br>
+
+      <input type="file" id="local-file" accept="video/*">
+      <button onclick="playLocal()">Play Local</button>
+
+      <br><br>
+
+      <input type="text" id="video-caption" placeholder="Write a caption..." style="padding:6px; width:250px;">
+      <button onclick="saveVideoMeta()">Save Caption</button>
+      <button onclick="clearVideo()">Clear</button>
+    </div>
+  </section>
+  <!-- 🔹 End of Video Section -->
+
+
 
   <footer>
     <p>Contact: adityabisht58366@gmail.com | © 2025 Portfolio</p>
   </footer>
   <script>
-    window.addEventListener("scroll", () => {
-      let scrollY = window.scrollY;
-      let shinchan = document.querySelector(".shinchan img");
+  <script>
+  // Shinchan animation
+  window.addEventListener("scroll", () => {
+    let scrollY = window.scrollY;
+    let shinchan = document.querySelector(".shinchan img");
+    let jump = Math.sin(scrollY * 0.05) * 20; 
+    shinchan.style.transform = `translateY(${jump}px)`;
+  });
 
-      let jump = Math.sin(scrollY * 0.05) * 20; 
-      shinchan.style.transform = `translateY(${jump}px)`;
-    });
+  // 🎥 Video functions
+  function embedYoutube(){
+    const url = document.getElementById('yt-url').value.trim();
+    if(!url){alert('Paste a YouTube URL or upload a file.');return}
+    const idMatch = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/(.+)$/);
+    const id = idMatch ? idMatch[1] : null;
+    const preview = document.getElementById('video-preview');
+    if(id){
+      preview.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
+      document.getElementById('video-note').textContent = document.getElementById('video-caption').value || 'YouTube embed';
+    } else {
+      alert('Could not extract YouTube id. Make sure the link is correct.');
+    }
+  }
+
+  function playLocal(){
+    const file = document.getElementById('local-file').files[0];
+    const preview = document.getElementById('video-preview');
+    if(!file){alert('Choose a video file first');return}
+    const url = URL.createObjectURL(file);
+    preview.innerHTML = `<video controls style="width:100%;height:100%;border-radius:6px"><source src="${url}" type="${file.type}">Your browser does not support video.</video>`;
+    document.getElementById('video-note').textContent = document.getElementById('video-caption').value || (file.name + ' (local)');
+  }
+
+  function saveVideoMeta(){
+    const note = document.getElementById('video-caption').value;
+    document.getElementById('video-note').textContent = note || 'No caption';
+    alert('Video metadata saved locally in the page');
+  }
+
+  function clearVideo(){
+    document.getElementById('video-preview').textContent='No video added';
+    document.getElementById('video-note').textContent='';
+    document.getElementById('yt-url').value='';
+    document.getElementById('local-file').value=null;
+    document.getElementById('video-caption').value='';
+  }
+</script>
+
   </script>
 </body>
 </html>
